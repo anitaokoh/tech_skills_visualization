@@ -1,0 +1,39 @@
+version: 1
+disable_existing_loggers: True
+formatters:
+  standard: 
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s' 
+handlers: 
+  console: 
+    class: logging.StreamHandler
+    level: ERROR
+    formatter: standard
+    stream: ext://sys.stdout
+  
+  historical_file_handler:
+    class: logging.FileHandler
+    level: DEBUG
+    formatter: standard
+    filename: logs/historical.log
+    encoding: utf8
+    
+  recent_file_handler: 
+    class: logging.handlers.TimedRotatingFileHandler
+    level: DEBUG
+    when : d 
+    interval : 30
+    backupCount : 1
+    formatter: standard
+    filename: logs/recent.log
+    encoding: utf8
+    
+    
+    
+
+loggers: 
+  __main__: 
+    level: DEBUG
+    handlers: ["console", "historical_file_handler","recent_file_handler"]
+    propagate: no
+  
+
